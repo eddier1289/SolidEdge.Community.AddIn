@@ -153,6 +153,34 @@ namespace SolidEdgeCommunity.AddIn
             }
         }
 
+        public void ClearEdgeBarPages()
+        {
+            var pages = this._edgeBarPages.ToList();
+
+            foreach (var edgeBarPage in pages)
+            {
+                _edgeBarPages.Remove(edgeBarPage);
+
+                try
+                {
+                    int hWnd = edgeBarPage.Handle.ToInt32();
+
+                    try
+                    {
+                        _addIn.EdgeBarEx.RemovePage(edgeBarPage.Document, hWnd, 0);
+                    }
+                    catch
+                    {
+                    }
+
+                    edgeBarPage.Dispose();
+                }
+                catch
+                {
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
